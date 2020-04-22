@@ -77,6 +77,8 @@ do
 								cp "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/$FILE_JPG" "$PHOTOS_PATH/$YEAR-ori/$MONTH-$MONTH_HUMAN/$YEAR-$MONTH-$MONTH_HUMAN-FOTO-$INDEX_FOTO_STRING-$FOLDER.jpg"
                         done
 						
+						
+						
 						INDEX_VIDEO=$((INDEX_VIDEO + 1))
 						INDEX_VIDEO_LENGTH=${#INDEX_VIDEO}
 						INDEX_VIDEO_STRING=$INDEX_VIDEO
@@ -85,22 +87,24 @@ do
 							INDEX_VIDEO_STRING="0$INDEX_VIDEO"
 						fi
 						
+						TEMP_FOLDER="/temp"
 						VIDEO_AUX="0"
 						EXTENSION="mp4"
-						mkdir /tmp/mp4
+						mkdir /$TEMP_FOLDER/$EXTENSION
+						
+						VIDEO_AUX=$((VIDEO_AUX + 1))
 						for FILE_MP4 in `ls "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER" | grep -E '.mp4|.MP4'` # Grep mp4 or MP4
                         do
-							VIDEO_AUX=$((VIDEO_AUX + 1))
-							cp "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/$FILE_MP4" "/tmp/mp4/$VIDEO_AUX.mp4"
-							echo "file '/tmp/mp4/$VIDEO_AUX.mp4'" >> /tmp/list
+							cp "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/$FILE_MP4" "/$TEMP_FOLDER/$EXTENSION/$VIDEO_AUX.$EXTENSION"
+							echo "file '/$TEMP_FOLDER/$EXTENSION/$VIDEO_AUX.$EXTENSION'" >> /tmp/list
 						done
 
-						ffmpeg -f concat -safe 0 -i /tmp/list -c copy /tmp/output$VIDEO_AUX
-						rm -Rf /tmp/mp4
+						ffmpeg -f concat -safe 0 -i /$TEMP_FOLDER/list -c copy /$TEMP_FOLDER/output$VIDEO_AUX
+						#rm -Rf /$TEMP_FOLDER/$EXTENSION
 
-						cp /tmp/output$VIDEO_AUX "$PHOTOS_PATH/$YEAR-ori/$MONTH-$MONTH_HUMAN/$YEAR-$MONTH-$MONTH_HUMAN-VIDEO-$INDEX_VIDEO_STRING-$FOLDER.mp4"
-						rm /tmp/list
-						rm /tmp/output$VIDEO_AUX
+						cp /$TEMP_FOLDER/output$VIDEO_AUX "$PHOTOS_PATH/$YEAR-ori/$MONTH-$MONTH_HUMAN/$YEAR-$MONTH-$MONTH_HUMAN-VIDEO-$INDEX_VIDEO_STRING-$FOLDER.mp4"
+						#rm /$TEMP_FOLDER/list
+						#rm /$TEMP_FOLDER/output$VIDEO_AUX
 	                done
         done
 done
