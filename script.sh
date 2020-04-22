@@ -87,7 +87,7 @@ do
 							INDEX_VIDEO_STRING="0$INDEX_VIDEO"
 						fi
 						
-						TEMP_FOLDER="temp"
+						TEMP_FOLDER="tmp"
 						VIDEO_AUX="9"
 						EXTENSION="mp4"
 						mkdir /$TEMP_FOLDER/$EXTENSION
