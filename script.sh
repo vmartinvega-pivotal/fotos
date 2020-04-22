@@ -87,7 +87,7 @@ do
 							INDEX_VIDEO_STRING="0$INDEX_VIDEO"
 						fi
 						
-						TEMP_FOLDER="/temp"
+						TEMP_FOLDER="temp"
 						VIDEO_AUX="9"
 						EXTENSION="mp4"
 						mkdir /$TEMP_FOLDER/$EXTENSION
@@ -100,16 +100,15 @@ do
 							echo "file '/$TEMP_FOLDER/$EXTENSION/$VIDEO_AUX.$EXTENSION'" >> /$TEMP_FOLDER/list
 						done
 
-						VIDEO_AUX=$((VIDEO_AUX + 1))
 						echo "Concating files..."
 						cat /$TEMP_FOLDER/list
-						echo "... to file /$TEMP_FOLDER/output$VIDEO_AUX"
-						ffmpeg -f concat -safe 0 -i /$TEMP_FOLDER/list -c copy /$TEMP_FOLDER/output$VIDEO_AUX
+						echo "... to file /$TEMP_FOLDER/output"
+						ffmpeg -f concat -safe 0 -i /$TEMP_FOLDER/list -c copy /$TEMP_FOLDER/output
 						#rm -Rf /$TEMP_FOLDER/$EXTENSION
 
-						cp /$TEMP_FOLDER/output$VIDEO_AUX "$PHOTOS_PATH/$YEAR-ori/$MONTH-$MONTH_HUMAN/$YEAR-$MONTH-$MONTH_HUMAN-VIDEO-$INDEX_VIDEO_STRING-$FOLDER.mp4"
+						cp /$TEMP_FOLDER/output "$PHOTOS_PATH/$YEAR-ori/$MONTH-$MONTH_HUMAN/$YEAR-$MONTH-$MONTH_HUMAN-VIDEO-$INDEX_VIDEO_STRING-$FOLDER.mp4"
 						#rm /$TEMP_FOLDER/list
-						#rm /$TEMP_FOLDER/output$VIDEO_AUX
+						#rm /$TEMP_FOLDER/output
 	                done
         done
 done
