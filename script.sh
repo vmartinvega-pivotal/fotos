@@ -126,6 +126,7 @@ do
 								ffmpeg -f concat -safe 0 -i /$TEMP_FOLDER/list.$EXTENSION -c copy /$TEMP_FOLDER/output-$VIDEO_AUX.$EXTENSION
 								
 								cp /$TEMP_FOLDER/output-$VIDEO_AUX.$EXTENSION "$PHOTOS_PATH/$YEAR-ori/$MONTH-$MONTH_HUMAN/$YEAR-$MONTH-$MONTH_HUMAN-VIDEO-$INDEX_VIDEO_STRING-$FOLDER.$EXTENSION"								chmod +x /$TEMP_FOLDER/ln.$EXTENSION
+								chmod +x /$TEMP_FOLDER/ln.$EXTENSION
 								/$TEMP_FOLDER/ln.$EXTENSION
 								rm /$TEMP_FOLDER/ln.$EXTENSION
 								rm /$TEMP_FOLDER/output-$VIDEO_AUX.$EXTENSION
