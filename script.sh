@@ -1,9 +1,5 @@
 #!/bin/bash
 
-function toLowerCase() {
-  echo "$1" | tr '[:upper:]' '[:lower:]'
-}
-
 OIFS="$IFS"
 IFS=$'\n'
 
