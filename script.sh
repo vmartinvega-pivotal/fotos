@@ -84,10 +84,10 @@ do
 						then
 							INDEX_VIDEO_STRING="0$INDEX_VIDEO"
 						fi
-								
-						ls "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER" | grep -E '.mp4|.MP4' > "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/list_mp4"
-						ffmpeg -f concat -i "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/list_mp4" -c copy "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/output"
-						#touch "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/output"
+						
+						ls -1 -d "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER"/* | grep -E '.mp4|.MP4' > "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/list_mp4"
+						#ffmpeg -f concat -i "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/list_mp4" -c copy "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/output"
+						touch "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/output"
 						cp "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/output" "$PHOTOS_PATH/$YEAR-ori/$MONTH-$MONTH_HUMAN/$YEAR-$MONTH-$MONTH_HUMAN-VIDEO-$INDEX_VIDEO_STRING-$FOLDER.mp4"
 						rm "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/list_mp4"
 						rm "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/output"
