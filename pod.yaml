@@ -18,5 +18,5 @@ spec:
   volumes:
   - name: fotos
     hostPath:
-      path: /c/Users/vegav/Downloads/2019-test
+      path: /c/Users/vegav/Downloads/fotos
 status: {}
