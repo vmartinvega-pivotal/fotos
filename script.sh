@@ -87,20 +87,20 @@ do
 						
 						VIDEO_AUX="0"
 						EXTENSION="mp4"
-						mkdir /temp_volume/mp4
+						mkdir /tmp/mp4
 						for FILE_MP4 in `ls "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER" | grep -E '.mp4|.MP4'` # Grep mp4 or MP4
                         do
 							VIDEO_AUX=$((VIDEO_AUX + 1))
-							cp "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/$FILE_MP4" "/temp_volume/mp4/$VIDEO_AUX.mp4"
-							echo "file '/temp_volume/mp4/$VIDEO_AUX.mp4'" >> /temp_volume/list
+							cp "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/$FILE_MP4" "/tmp/mp4/$VIDEO_AUX.mp4"
+							echo "file '/tmp/mp4/$VIDEO_AUX.mp4'" >> /tmp/list
 						done
 
-						ffmpeg -f concat -safe 0 -i /temp_volume/list -c copy "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/output"
-						rm -Rf /temp_volume/mp4
+						ffmpeg -f concat -safe 0 -i /tmp/list -c copy "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/output"
+						rm -Rf /tmp/mp4
 						
 						#touch "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/output"
 						cp "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/output" "$PHOTOS_PATH/$YEAR-ori/$MONTH-$MONTH_HUMAN/$YEAR-$MONTH-$MONTH_HUMAN-VIDEO-$INDEX_VIDEO_STRING-$FOLDER.mp4"
-						rm /temp_volume/list
+						rm /tmp/list
 						rm "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/output"
 	                done
         done
