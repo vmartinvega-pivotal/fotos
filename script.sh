@@ -95,12 +95,12 @@ do
 							echo "file '/tmp/mp4/$VIDEO_AUX.mp4'" >> /tmp/list
 						done
 
-						ffmpeg -f concat -i /tmp/list -c copy "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/output"
+						ffmpeg -f concat -safe 0 -i /tmp/list -c copy "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/output"
 						rm -Rf /tmp/mp4
 						
 						#touch "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/output"
 						cp "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/output" "$PHOTOS_PATH/$YEAR-ori/$MONTH-$MONTH_HUMAN/$YEAR-$MONTH-$MONTH_HUMAN-VIDEO-$INDEX_VIDEO_STRING-$FOLDER.mp4"
-						rm "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/list_mp4"
+						rm /tmp/list
 						rm "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/output"
 	                done
         done
