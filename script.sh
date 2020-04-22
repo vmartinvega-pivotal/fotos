@@ -97,18 +97,18 @@ do
 							VIDEO_AUX=$((VIDEO_AUX + 1))
 							echo "Copying file: $FILE_MP4 to /$TEMP_FOLDER/$EXTENSION/$VIDEO_AUX.$EXTENSION"
 							cp "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/$FILE_MP4" "/$TEMP_FOLDER/$EXTENSION/$VIDEO_AUX.$EXTENSION"
-							echo "file '/$TEMP_FOLDER/$EXTENSION/$VIDEO_AUX.$EXTENSION'" >> /$TEMP_FOLDER/list
+							echo "file '/$TEMP_FOLDER/$EXTENSION/$VIDEO_AUX.$EXTENSION'" >> /$TEMP_FOLDER/list.$EXTENSION
 						done
 
 						echo "Concating files..."
-						cat /$TEMP_FOLDER/list
-						echo "... to file /$TEMP_FOLDER/output"
-						ffmpeg -f concat -safe 0 -i /$TEMP_FOLDER/list -c copy /$TEMP_FOLDER/output
-						#rm -Rf /$TEMP_FOLDER/$EXTENSION
+						cat /$TEMP_FOLDER/list.$EXTENSION
+						echo "... to file /$TEMP_FOLDER/output-$VIDEO_AUX.$EXTENSION"
+						ffmpeg -f concat -safe 0 -i /$TEMP_FOLDER/list.$EXTENSION -c copy /$TEMP_FOLDER/output-$VIDEO_AUX.$EXTENSION
+						rm -Rf /$TEMP_FOLDER/$EXTENSION
 
-						cp /$TEMP_FOLDER/output "$PHOTOS_PATH/$YEAR-ori/$MONTH-$MONTH_HUMAN/$YEAR-$MONTH-$MONTH_HUMAN-VIDEO-$INDEX_VIDEO_STRING-$FOLDER.mp4"
-						#rm /$TEMP_FOLDER/list
-						#rm /$TEMP_FOLDER/output
+						cp /$TEMP_FOLDER/output-$VIDEO_AUX.$EXTENSION "$PHOTOS_PATH/$YEAR-ori/$MONTH-$MONTH_HUMAN/$YEAR-$MONTH-$MONTH_HUMAN-VIDEO-$INDEX_VIDEO_STRING-$FOLDER.$EXTENSION"
+						rm /$TEMP_FOLDER/list.$EXTENSION
+						rm /$TEMP_FOLDER/output-$VIDEO_AUX.$EXTENSION
 	                done
         done
 done
