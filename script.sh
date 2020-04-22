@@ -1,13 +1,5 @@
 #!/bin/sh
 
-function removeFolder(){
-  local IN_TEMP_FOLDER=$1
-
-  if [ -d ${IN_TEMP_FOLDER} ]; then
-    rm -Rf ${IN_TEMP_FOLDER}
-  fi
-}
-
 OIFS="$IFS"
 IFS=$'\n'
 
@@ -18,7 +10,6 @@ for YEAR in `ls "$PHOTOS_PATH"`
 do
         echo "Analyzing year: $YEAR"
 		echo "Creating folder: $YEAR-ori"
-		removeFolder "$PHOTOS_PATH/$YEAR-ori"
 		mkdir "$PHOTOS_PATH/$YEAR-ori"
 		
 		INDEX_FOTO=0
