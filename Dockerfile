@@ -1,7 +1,8 @@
 FROM ubuntu:18.04
 
 RUN apt-get update \
-    && apt-get install ffmpeg -y
+    && apt-get install ffmpeg -y \
+	&& apt-get install nano
 	
 RUN mkdir /scripts
 
