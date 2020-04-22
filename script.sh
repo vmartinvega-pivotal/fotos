@@ -81,41 +81,45 @@ do
 								cp "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/$FILE_JPG" "$PHOTOS_PATH/$YEAR-ori/$MONTH-$MONTH_HUMAN/$YEAR-$MONTH-$MONTH_HUMAN-FOTO-$INDEX_FOTO_STRING-$FOLDER.jpg"
                         done
 						
-						
-						
-						INDEX_VIDEO=$((INDEX_VIDEO + 1))
-						INDEX_VIDEO_LENGTH=${#INDEX_VIDEO}
-						INDEX_VIDEO_STRING=$INDEX_VIDEO
-						if [[ $INDEX_VIDEO_LENGTH = "1" ]]
-						then
-							INDEX_VIDEO_STRING="0$INDEX_VIDEO"
-						fi
-						
 						TEMP_FOLDER="tmp"
-						
-						extensions=( "MP4" "MOV")
+						extensions=( "mp4" "mov")
 						
 						for EXTENSION in "${extensions[@]}"
 						do
 							VIDEO_AUX="9"
 							mkdir /$TEMP_FOLDER/$EXTENSION
-							LOWER_EXTENSION=$(toLowerCase $EXTENSION)
 							touch /$TEMP_FOLDER/list.$EXTENSION
 							
-							for FILE in `ls "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER" | grep -E '.$LOWER_EXTENSION|.$EXTENSION'` # Grep mp4 or MP4
-							do
-								VIDEO_AUX=$((VIDEO_AUX + 1))
-								echo "Copying file: $FILE to /$TEMP_FOLDER/$EXTENSION/$VIDEO_AUX.$EXTENSION"
-								ln -s "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/$FILE" "/$TEMP_FOLDER/$EXTENSION/$VIDEO_AUX.$EXTENSION"
-								echo "file '/$TEMP_FOLDER/$EXTENSION/$VIDEO_AUX.$EXTENSION'" >> /$TEMP_FOLDER/list.$EXTENSION
-								echo "rm /$TEMP_FOLDER/$EXTENSION/$VIDEO_AUX.$EXTENSION" >> /$TEMP_FOLDER/ln.$EXTENSION
-							done
-		
-							NUMBER_OF_FILES=$(cat /$TEMP_FOLDER/list.$EXTENSION | wc -l)
+							if [[ $EXTENSION = "mp4" ]]
+							then
+								ls "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER" | grep -E '.mp4|.MP4' > /$TEMP_FOLDER/list-files.$EXTENSION
+							elif [[ $EXTENSION = "mov" ]]
+								ls "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER" | grep -E '.mov|.MOV' > /$TEMP_FOLDER/list-files.$EXTENSION
+							fi
+							
+							NUMBER_OF_FILES=$(cat /$TEMP_FOLDER/list-files.$EXTENSION | wc -l)
 							if [[ $NUMBER_OF_FILES = "0" ]]
 							then
-								echo "No files for extension $LOWER_EXTENSION"
+								echo "No files for extension $EXTENSION"
 							else
+								# Creates video index
+								INDEX_VIDEO=$((INDEX_VIDEO + 1))
+								INDEX_VIDEO_LENGTH=${#INDEX_VIDEO}
+								INDEX_VIDEO_STRING=$INDEX_VIDEO
+								if [[ $INDEX_VIDEO_LENGTH = "1" ]]
+								then
+									INDEX_VIDEO_STRING="0$INDEX_VIDEO"
+								fi
+						
+								for FILE in `cat /$TEMP_FOLDER/list-files.$EXTENSION` # Grep mp4 or MP4
+								do
+									VIDEO_AUX=$((VIDEO_AUX + 1))
+									echo "Copying file: $FILE to /$TEMP_FOLDER/$EXTENSION/$VIDEO_AUX.$EXTENSION"
+									ln -s "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/$FILE" "/$TEMP_FOLDER/$EXTENSION/$VIDEO_AUX.$EXTENSION"
+									echo "file '/$TEMP_FOLDER/$EXTENSION/$VIDEO_AUX.$EXTENSION'" >> /$TEMP_FOLDER/list.$EXTENSION
+									echo "rm /$TEMP_FOLDER/$EXTENSION/$VIDEO_AUX.$EXTENSION" >> /$TEMP_FOLDER/ln.$EXTENSION
+								done
+								
 								echo "Concating files..."
 								cat /$TEMP_FOLDER/list.$EXTENSION
 								echo "... to file /$TEMP_FOLDER/output-$VIDEO_AUX.$EXTENSION"
@@ -125,10 +129,12 @@ do
 								/$TEMP_FOLDER/ln.$EXTENSION
 								rm /$TEMP_FOLDER/ln.$EXTENSION
 								rm /$TEMP_FOLDER/output-$VIDEO_AUX.$EXTENSION
+								
+								rm /$TEMP_FOLDER/list.$EXTENSION
+								rm -Rf /$TEMP_FOLDER/$EXTENSION
 							fi
 							
-							rm /$TEMP_FOLDER/list.$EXTENSION
-							rm -Rf /$TEMP_FOLDER/$EXTENSION
+							rm /$TEMP_FOLDER/list-files.$EXTENSION
 						done
 	                done
         done
