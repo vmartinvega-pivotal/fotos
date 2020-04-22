@@ -130,6 +130,7 @@ do
 								rm /$TEMP_FOLDER/ln.$EXTENSION
 								rm /$TEMP_FOLDER/list.$EXTENSION
 								rm -Rf /$TEMP_FOLDER/$EXTENSION
+								rm /$TEMP_FOLDER/output.$EXTENSION
 							fi
 							
 							rm /$TEMP_FOLDER/list-files.$EXTENSION
