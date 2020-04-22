@@ -93,7 +93,7 @@ do
 						
 						TEMP_FOLDER="tmp"
 						
-						extensions=( "MP4", "MOV")
+						extensions=( "MP4" "MOV")
 						
 						for EXTENSION in "${extensions[@]}"
 						do
@@ -120,8 +120,7 @@ do
 								cat /$TEMP_FOLDER/list.$EXTENSION
 								echo "... to file /$TEMP_FOLDER/output-$VIDEO_AUX.$EXTENSION"
 								ffmpeg -f concat -safe 0 -i /$TEMP_FOLDER/list.$EXTENSION -c copy /$TEMP_FOLDER/output-$VIDEO_AUX.$EXTENSION
-								rm -Rf /$TEMP_FOLDER/$EXTENSION
-
+								
 								cp /$TEMP_FOLDER/output-$VIDEO_AUX.$EXTENSION "$PHOTOS_PATH/$YEAR-ori/$MONTH-$MONTH_HUMAN/$YEAR-$MONTH-$MONTH_HUMAN-VIDEO-$INDEX_VIDEO_STRING-$FOLDER.$EXTENSION"								chmod +x /$TEMP_FOLDER/ln.$EXTENSION
 								/$TEMP_FOLDER/ln.$EXTENSION
 								rm /$TEMP_FOLDER/ln.$EXTENSION
@@ -129,6 +128,7 @@ do
 							fi
 							
 							rm /$TEMP_FOLDER/list.$EXTENSION
+							rm -Rf /$TEMP_FOLDER/$EXTENSION
 						done
 	                done
         done
