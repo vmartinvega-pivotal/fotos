@@ -123,14 +123,15 @@ do
 								echo "Concating files..."
 								cat /$TEMP_FOLDER/list.$EXTENSION
 								echo "... to file /$TEMP_FOLDER/output-$VIDEO_AUX.$EXTENSION"
-								ffmpeg -f concat -safe 0 -i /$TEMP_FOLDER/list.$EXTENSION -c copy /$TEMP_FOLDER/output-$VIDEO_AUX.$EXTENSION
+								ffmpeg -f concat -safe 0 -i /$TEMP_FOLDER/list.$EXTENSION -c copy /$TEMP_FOLDER/output.$EXTENSION
 								
-								cp /$TEMP_FOLDER/output-$VIDEO_AUX.$EXTENSION "$PHOTOS_PATH/$YEAR-ori/$MONTH-$MONTH_HUMAN/$YEAR-$MONTH-$MONTH_HUMAN-VIDEO-$INDEX_VIDEO_STRING-$FOLDER.$EXTENSION"								chmod +x /$TEMP_FOLDER/ln.$EXTENSION
+								echo "Moving concatenated file ..."
+								cp /$TEMP_FOLDER/output.$EXTENSION "$PHOTOS_PATH/$YEAR-ori/$MONTH-$MONTH_HUMAN/$YEAR-$MONTH-$MONTH_HUMAN-VIDEO-$INDEX_VIDEO_STRING-$FOLDER.$EXTENSION"								
+								
+								echo "Removing temp files ..."
 								chmod +x /$TEMP_FOLDER/ln.$EXTENSION
 								/$TEMP_FOLDER/ln.$EXTENSION
 								rm /$TEMP_FOLDER/ln.$EXTENSION
-								rm /$TEMP_FOLDER/output-$VIDEO_AUX.$EXTENSION
-								
 								rm /$TEMP_FOLDER/list.$EXTENSION
 								rm -Rf /$TEMP_FOLDER/$EXTENSION
 							fi
