@@ -1,5 +1,9 @@
 #!/bin/bash
 
+function toLowerCase() {
+  echo "$1" | tr '[:upper:]' '[:lower:]'
+}
+
 OIFS="$IFS"
 IFS=$'\n'
 
@@ -88,32 +92,44 @@ do
 						fi
 						
 						TEMP_FOLDER="tmp"
-						VIDEO_AUX="9"
-						EXTENSION="mp4"
-						mkdir /$TEMP_FOLDER/$EXTENSION
 						
-						for FILE_MP4 in `ls "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER" | grep -E '.mp4|.MP4'` # Grep mp4 or MP4
-                        do
-							VIDEO_AUX=$((VIDEO_AUX + 1))
-							echo "Copying file: $FILE_MP4 to /$TEMP_FOLDER/$EXTENSION/$VIDEO_AUX.$EXTENSION"
-							ln -s "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/$FILE_MP4" "/$TEMP_FOLDER/$EXTENSION/$VIDEO_AUX.$EXTENSION"
-							#cp "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/$FILE_MP4" "/$TEMP_FOLDER/$EXTENSION/$VIDEO_AUX.$EXTENSION"
-							echo "file '/$TEMP_FOLDER/$EXTENSION/$VIDEO_AUX.$EXTENSION'" >> /$TEMP_FOLDER/list.$EXTENSION
-							echo "rm /$TEMP_FOLDER/$EXTENSION/$VIDEO_AUX.$EXTENSION" >> /$TEMP_FOLDER/ln.$EXTENSION
+						extensions=( "MP4", "MOV")
+						
+						for EXTENSION in "${extensions[@]}"
+						do
+							VIDEO_AUX="9"
+							mkdir /$TEMP_FOLDER/$EXTENSION
+							LOWER_EXTENSION=$(toLowerCase $EXTENSION)
+							touch /$TEMP_FOLDER/list.$EXTENSION
+							
+							for FILE in `ls "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER" | grep -E '.$LOWER_EXTENSION|.$EXTENSION'` # Grep mp4 or MP4
+							do
+								VIDEO_AUX=$((VIDEO_AUX + 1))
+								echo "Copying file: $FILE to /$TEMP_FOLDER/$EXTENSION/$VIDEO_AUX.$EXTENSION"
+								ln -s "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/$FILE" "/$TEMP_FOLDER/$EXTENSION/$VIDEO_AUX.$EXTENSION"
+								echo "file '/$TEMP_FOLDER/$EXTENSION/$VIDEO_AUX.$EXTENSION'" >> /$TEMP_FOLDER/list.$EXTENSION
+								echo "rm /$TEMP_FOLDER/$EXTENSION/$VIDEO_AUX.$EXTENSION" >> /$TEMP_FOLDER/ln.$EXTENSION
+							done
+		
+							NUMBER_OF_FILES=$(cat /$TEMP_FOLDER/list.$EXTENSION | wc -l)
+							if [[ $NUMBER_OF_FILES = "0" ]]
+							then
+								echo "No files for extension $LOWER_EXTENSION"
+							else
+								echo "Concating files..."
+								cat /$TEMP_FOLDER/list.$EXTENSION
+								echo "... to file /$TEMP_FOLDER/output-$VIDEO_AUX.$EXTENSION"
+								ffmpeg -f concat -safe 0 -i /$TEMP_FOLDER/list.$EXTENSION -c copy /$TEMP_FOLDER/output-$VIDEO_AUX.$EXTENSION
+								rm -Rf /$TEMP_FOLDER/$EXTENSION
+
+								cp /$TEMP_FOLDER/output-$VIDEO_AUX.$EXTENSION "$PHOTOS_PATH/$YEAR-ori/$MONTH-$MONTH_HUMAN/$YEAR-$MONTH-$MONTH_HUMAN-VIDEO-$INDEX_VIDEO_STRING-$FOLDER.$EXTENSION"								chmod +x /$TEMP_FOLDER/ln.$EXTENSION
+								/$TEMP_FOLDER/ln.$EXTENSION
+								rm /$TEMP_FOLDER/ln.$EXTENSION
+								rm /$TEMP_FOLDER/output-$VIDEO_AUX.$EXTENSION
+							fi
+							
+							rm /$TEMP_FOLDER/list.$EXTENSION
 						done
-
-						echo "Concating files..."
-						cat /$TEMP_FOLDER/list.$EXTENSION
-						echo "... to file /$TEMP_FOLDER/output-$VIDEO_AUX.$EXTENSION"
-						ffmpeg -f concat -safe 0 -i /$TEMP_FOLDER/list.$EXTENSION -c copy /$TEMP_FOLDER/output-$VIDEO_AUX.$EXTENSION
-						rm -Rf /$TEMP_FOLDER/$EXTENSION
-
-						cp /$TEMP_FOLDER/output-$VIDEO_AUX.$EXTENSION "$PHOTOS_PATH/$YEAR-ori/$MONTH-$MONTH_HUMAN/$YEAR-$MONTH-$MONTH_HUMAN-VIDEO-$INDEX_VIDEO_STRING-$FOLDER.$EXTENSION"
-						rm /$TEMP_FOLDER/list.$EXTENSION
-						chmod +x /$TEMP_FOLDER/ln.$EXTENSION
-						/$TEMP_FOLDER/ln.$EXTENSION
-						rm /$TEMP_FOLDER/ln.$EXTENSION
-						rm /$TEMP_FOLDER/output-$VIDEO_AUX.$EXTENSION
 	                done
         done
 done
