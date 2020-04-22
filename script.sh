@@ -93,7 +93,7 @@ do
 							if [[ $EXTENSION = "mp4" ]]
 							then
 								ls "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER" | grep -E '.mp4|.MP4' > /$TEMP_FOLDER/list-files.$EXTENSION
-							elif [[ $EXTENSION = "mov" ]]
+							else
 								ls "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER" | grep -E '.mov|.MOV' > /$TEMP_FOLDER/list-files.$EXTENSION
 							fi
 							
