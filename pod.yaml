@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: fotos
+  name: fotos
+spec:
+  containers:
+  - image: vicente/fotos-image:1.0
+    name: fotos
+    resources: {}
+    args:
+    - /bin/sh
+    - -c
+    - ls /fotos
+    volumeMounts:
+    - mountPath: /fotos
+      name: fotos
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+  volumes:
+  - name: fotos
+    hostPath:
+      path: /c/Users/vegav/Downloads/2019-test
+status: {}
