@@ -88,17 +88,22 @@ do
 						fi
 						
 						TEMP_FOLDER="/temp"
-						VIDEO_AUX="0"
+						VIDEO_AUX="9"
 						EXTENSION="mp4"
 						mkdir /$TEMP_FOLDER/$EXTENSION
 						
-						VIDEO_AUX=$((VIDEO_AUX + 1))
 						for FILE_MP4 in `ls "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER" | grep -E '.mp4|.MP4'` # Grep mp4 or MP4
                         do
+							VIDEO_AUX=$((VIDEO_AUX + 1))
+							echo "Copying file: $FILE_MP4 to /$TEMP_FOLDER/$EXTENSION/$VIDEO_AUX.$EXTENSION"
 							cp "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/$FILE_MP4" "/$TEMP_FOLDER/$EXTENSION/$VIDEO_AUX.$EXTENSION"
-							echo "file '/$TEMP_FOLDER/$EXTENSION/$VIDEO_AUX.$EXTENSION'" >> /tmp/list
+							echo "file '/$TEMP_FOLDER/$EXTENSION/$VIDEO_AUX.$EXTENSION'" >> /$TEMP_FOLDER/list
 						done
 
+						VIDEO_AUX=$((VIDEO_AUX + 1))
+						echo "Concating files..."
+						cat /$TEMP_FOLDER/list
+						echo "... to file /$TEMP_FOLDER/output$VIDEO_AUX"
 						ffmpeg -f concat -safe 0 -i /$TEMP_FOLDER/list -c copy /$TEMP_FOLDER/output$VIDEO_AUX
 						#rm -Rf /$TEMP_FOLDER/$EXTENSION
 
