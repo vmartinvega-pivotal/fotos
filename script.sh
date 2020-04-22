@@ -1,10 +1,8 @@
 #!/bin/sh
 
-PATH=$1
+PHOTOS_PATH=$1
 
-echo $PATH
-
-for FILE in `ls $PATH`
+for FILE in `ls $PHOTOS_PATH`
 do
 	echo $FILE
 done

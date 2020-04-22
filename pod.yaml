@@ -10,10 +10,6 @@ spec:
   - image: vicente/fotos-image:1.0
     name: fotos
     resources: {}
-    args:
-    - /bin/sh
-    - -c
-    - ls /fotos
     volumeMounts:
     - mountPath: /fotos
       name: fotos
