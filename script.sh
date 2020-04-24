@@ -1,5 +1,35 @@
 #!/bin/bash
 
+function createNfo(){
+	local IN_FILE=$1
+	local IN_TITTLE="$2"
+	local IN_YEAR=$3
+	local IN_MONTH=$4
+	local IN_TYPE=$5
+	
+	echo "<movie>" >> $IN_FILE
+	echo "<title>" >> $IN_FILE
+	echo $IN_TITLE >> $IN_FILE
+	echo "</title>" >> $IN_FILE
+	echo "<sorttitle>" >> $IN_FILE
+	echo $IN_TITLE >> $IN_FILE
+	echo "</sorttitle>" >> $IN_FILE
+	echo "<year>" >> $IN_FILE
+	echo $IN_YEAR >> $IN_FILE
+	echo "</year>" >> $IN_FILE
+	echo "<director>Vicente Martin</director>" >> $IN_FILE
+	echo "<tag>" >> $IN_FILE
+	echo $IN_YEAR >> $IN_FILE
+	echo "</tag>" >> $IN_FILE
+	echo "<tag>" >> $IN_FILE
+	echo $IN_MONTH >> $IN_FILE
+	echo "</tag>" >> $IN_FILE
+	echo "<tag>" >> $IN_FILE
+	echo $IN_TYPE >> $IN_FILE
+	echo "</tag>" >> $IN_FILE
+	echo "</movie>" >> $IN_FILE
+}
+
 OIFS="$IFS"
 IFS=$'\n'
 
@@ -165,9 +195,8 @@ do
 								
 								ffmpeg -y -i /$TEMP_FOLDER/output.$EXTENSION -f mjpeg -ss 10 -vframes 1 /$TEMP_FOLDER/output.jpg
 								
-								# TODO: Create nfo file
-								touch /$TEMP_FOLDER/output.nfo
-								
+								createNfo /$TEMP_FOLDER/output.nfo "$FOLDER" "$YEAR" "$MONTH_HUMAN-VIDEO" "KIDS"
+							
 								echo "Moving concatenated file ..."
 								mv /$TEMP_FOLDER/output.$EXTENSION "$PHOTOS_PATH/$YEAR-movies/$MONTH-$MONTH_HUMAN/$FOLDER/$YEAR-$MONTH-$MONTH_HUMAN-VIDEO-$INDEX_VIDEO_STRING-$FOLDER.$EXTENSION"								
 								mv /$TEMP_FOLDER/output.jpg "$PHOTOS_PATH/$YEAR-movies/$MONTH-$MONTH_HUMAN/$FOLDER/$YEAR-$MONTH-$MONTH_HUMAN-VIDEO-$INDEX_VIDEO_STRING-$FOLDER.jpg"
