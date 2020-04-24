@@ -67,7 +67,7 @@ do
 						
                         echo "Analyzing folder: $FOLDER"
 						
-						extensions=( "jpg" "arw")
+						extensions=( "jpg" "arw" "dng")
 						
 						for EXTENSION in "${extensions[@]}"
 						do
@@ -78,6 +78,8 @@ do
 								ls "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER" | grep -E '.jpg|.JPG' >> /$TEMP_FOLDER/list-files-fotos.$EXTENSION # Grep jpg or JPG
 							elif [[ $EXTENSION = "arw" ]]
 								ls "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER" | grep -E '.arw|.ARW' >> /$TEMP_FOLDER/list-files-fotos.$EXTENSION # Grep arw or ARW
+							elif [[ $EXTENSION = "dng" ]]
+								ls "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER" | grep -E '.dng|.DNG' >> /$TEMP_FOLDER/list-files-fotos.$EXTENSION # Grep arw or ARW
 							fi
 							
 							NUMBER_OF_FILES=$(cat /$TEMP_FOLDER/list-files-fotos.$EXTENSION | wc -l)
