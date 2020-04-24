@@ -165,9 +165,13 @@ do
 								
 								ffmpeg -y -i /$TEMP_FOLDER/output.$EXTENSION -f mjpeg -ss 10 -vframes 1 /$TEMP_FOLDER/output.jpg
 								
+								# Create nfo file
+								touch /$TEMP_FOLDER/output.nfo
+								
 								echo "Moving concatenated file ..."
 								mv /$TEMP_FOLDER/output.$EXTENSION "$PHOTOS_PATH/$YEAR-movies/$MONTH-$MONTH_HUMAN/$YEAR/$YEAR-$MONTH-$MONTH_HUMAN-VIDEO-$INDEX_VIDEO_STRING-$FOLDER.$EXTENSION"								
-								mv /$TEMP_FOLDER/output.jpg "$PHOTOS_PATH/$YEAR-movies/$MONTH-$MONTH_HUMAN/$YEAR/$YEAR-$MONTH-$MONTH_HUMAN-VIDEO-$INDEX_VIDEO_STRING-$FOLDER.jpg"								
+								mv /$TEMP_FOLDER/output.jpg "$PHOTOS_PATH/$YEAR-movies/$MONTH-$MONTH_HUMAN/$YEAR/$YEAR-$MONTH-$MONTH_HUMAN-VIDEO-$INDEX_VIDEO_STRING-$FOLDER.jpg"
+								mv /$TEMP_FOLDER/output.nfo "$PHOTOS_PATH/$YEAR-movies/$MONTH-$MONTH_HUMAN/$YEAR/$YEAR-$MONTH-$MONTH_HUMAN-VIDEO-$INDEX_VIDEO_STRING-$FOLDER.nfo"								
 																
 								echo "Removing temp files ..."
 								chmod +x /$TEMP_FOLDER/ln.$EXTENSION
