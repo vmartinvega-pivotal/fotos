@@ -9,8 +9,11 @@ PHOTOS_PATH=$1
 for YEAR in `ls "$PHOTOS_PATH"`
 do
         echo "Analyzing year: $YEAR"
-		echo "Creating folder: $YEAR-ori"
-		mkdir "$PHOTOS_PATH/$YEAR-ori"
+		echo "Creating folder: $YEAR-photos"
+		mkdir "$PHOTOS_PATH/$YEAR-photos"
+		
+		echo "Creating folder: $YEAR-movies"
+		mkdir "$PHOTOS_PATH/$YEAR-movies"
 		
 		INDEX_FOTO=0
 		INDEX_VIDEO=0
@@ -57,8 +60,11 @@ do
 					MONTH_HUMAN="DICIEMBRE"
 				fi
 				
-				echo "Creating folder: $YEAR-ori/$MONTH-$MONTH_HUMAN"
-				mkdir "$PHOTOS_PATH/$YEAR-ori/$MONTH-$MONTH_HUMAN"
+				echo "Creating folder: $YEAR-photos/$MONTH-$MONTH_HUMAN"
+				mkdir "$PHOTOS_PATH/$YEAR-photos/$MONTH-$MONTH_HUMAN"
+				
+				echo "Creating folder: $YEAR-movies/$MONTH-$MONTH_HUMAN"
+				mkdir "$PHOTOS_PATH/$YEAR-movies/$MONTH-$MONTH_HUMAN"
 				
                 # Loop for folders
                 for FOLDER in `ls "$PHOTOS_PATH/$YEAR/$MONTH"`
@@ -89,6 +95,8 @@ do
 							then
 								echo "No photo files"
 							else
+								mkdir $PHOTOS_PATH/$YEAR-photos/$MONTH-$MONTH_HUMAN/$FOLDER
+								
 								for FILE_JPG in `cat /$TEMP_FOLDER/list-files-fotos.$EXTENSION` 
 								do
 										echo "Analyzing file: $FILE_JPG"
@@ -99,7 +107,7 @@ do
 										then
 											INDEX_FOTO_STRING="0$INDEX_FOTO"
 										fi
-										cp "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/$FILE_JPG" "$PHOTOS_PATH/$YEAR-ori/$MONTH-$MONTH_HUMAN/$YEAR-$MONTH-$MONTH_HUMAN-FOTO-$INDEX_FOTO_STRING-$FOLDER.$EXTENSION"
+										cp "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/$FILE_JPG" "$PHOTOS_PATH/$YEAR-photos/$MONTH-$MONTH_HUMAN/$FOLDER/$YEAR-$MONTH-$MONTH_HUMAN-FOTO-$INDEX_FOTO_STRING-$FOLDER.$EXTENSION"
 								done
 							fi
 							
@@ -130,6 +138,8 @@ do
 							then
 								echo "No files for extension $EXTENSION"
 							else
+								mkdir $PHOTOS_PATH/$YEAR-movies/$MONTH-$MONTH_HUMAN/$FOLDER
+								
 								# Creates video index
 								INDEX_VIDEO=$((INDEX_VIDEO + 1))
 								INDEX_VIDEO_LENGTH=${#INDEX_VIDEO}
@@ -153,16 +163,18 @@ do
 								echo "... to file /$TEMP_FOLDER/output-$VIDEO_AUX.$EXTENSION"
 								ffmpeg -f concat -safe 0 -i /$TEMP_FOLDER/list.$EXTENSION -c copy /$TEMP_FOLDER/output.$EXTENSION
 								
-								echo "Moving concatenated file ..."
-								cp /$TEMP_FOLDER/output.$EXTENSION "$PHOTOS_PATH/$YEAR-ori/$MONTH-$MONTH_HUMAN/$YEAR-$MONTH-$MONTH_HUMAN-VIDEO-$INDEX_VIDEO_STRING-$FOLDER.$EXTENSION"								
+								ffmpeg -y -i /$TEMP_FOLDER/output.$EXTENSION -f mjpeg -ss 10 -vframes 1 /$TEMP_FOLDER/output.jpg
 								
+								echo "Moving concatenated file ..."
+								mv /$TEMP_FOLDER/output.$EXTENSION "$PHOTOS_PATH/$YEAR-movies/$MONTH-$MONTH_HUMAN/$YEAR/$YEAR-$MONTH-$MONTH_HUMAN-VIDEO-$INDEX_VIDEO_STRING-$FOLDER.$EXTENSION"								
+								mv /$TEMP_FOLDER/output.jpg "$PHOTOS_PATH/$YEAR-movies/$MONTH-$MONTH_HUMAN/$YEAR/$YEAR-$MONTH-$MONTH_HUMAN-VIDEO-$INDEX_VIDEO_STRING-$FOLDER.jpg"								
+																
 								echo "Removing temp files ..."
 								chmod +x /$TEMP_FOLDER/ln.$EXTENSION
 								/$TEMP_FOLDER/ln.$EXTENSION
 								rm /$TEMP_FOLDER/ln.$EXTENSION
 								rm /$TEMP_FOLDER/list.$EXTENSION
 								rm -Rf /$TEMP_FOLDER/$EXTENSION
-								rm /$TEMP_FOLDER/output.$EXTENSION
 							fi
 							
 							rm /$TEMP_FOLDER/list-files.$EXTENSION
