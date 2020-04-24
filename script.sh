@@ -1,5 +1,9 @@
 #!/bin/bash
 
+function toLowerCase() {
+  echo "$1" | tr '[:upper:]' '[:lower:]'
+}
+
 function createNfo(){
 	local IN_FILE="$1"
 	local IN_TITTLE="$2"
@@ -7,26 +11,61 @@ function createNfo(){
 	local IN_MONTH="$4"
 	local IN_TYPE="$5"
 	
+	LOWER_TITTLE=$(toLowerCase $IN_TITTLE)
+	
 	echo "<movie>" >> $IN_FILE
-	echo "<title>" >> $IN_FILE
-	echo $IN_TITTLE >> $IN_FILE
-	echo "</title>" >> $IN_FILE
-	echo "<sorttitle>" >> $IN_FILE
-	echo $IN_TITTLE >> $IN_FILE
-	echo "</sorttitle>" >> $IN_FILE
-	echo "<year>" >> $IN_FILE
-	echo $IN_YEAR >> $IN_FILE
-	echo "</year>" >> $IN_FILE
+	echo "<title>$IN_TITTLE</title>" >> $IN_FILE
+	echo "<sorttitle>$IN_TITTLE</sorttitle>" >> $IN_FILE
+	echo "<year>$IN_YEAR</year>" >> $IN_FILE
 	echo "<director>Vicente Martin</director>" >> $IN_FILE
-	echo "<tag>" >> $IN_FILE
-	echo $IN_YEAR >> $IN_FILE
-	echo "</tag>" >> $IN_FILE
-	echo "<tag>" >> $IN_FILE
-	echo $IN_MONTH >> $IN_FILE
-	echo "</tag>" >> $IN_FILE
-	echo "<tag>" >> $IN_FILE
-	echo $IN_TYPE >> $IN_FILE
-	echo "</tag>" >> $IN_FILE
+	echo "<tag>$IN_YEAR</tag>" >> $IN_FILE
+	echo "<tag>$IN_MONTH</tag>" >> $IN_FILE
+	echo "<tag>$IN_TYPE</tag>" >> $IN_FILE
+	
+	if [[ $LOWER_TITTLE == *"vacaciones"* ]]; then
+		echo "<tag>Vacaciones</tag>" >> $IN_FILE
+	fi
+	
+	if [[ $LOWER_TITTLE == *"cumple"* ]]; then
+		echo "<tag>Cumple</tag>" >> $IN_FILE
+	fi
+	
+	if [[ $LOWER_TITTLE == *"carlos"* ]]; then
+		echo "<tag>Carlos</tag>" >> $IN_FILE
+	fi
+	
+	if [[ $LOWER_TITTLE == *"marina"* ]]; then
+		echo "<tag>Maria</tag>" >> $IN_FILE
+	fi
+	
+	if [[ $LOWER_TITTLE == *"actuacion"* ]]; then
+		echo "<tag>Actuacion</tag>" >> $IN_FILE
+	fi
+
+	if [[ $LOWER_TITTLE == *"primas"* ]]; then
+		echo "<tag>Primas</tag>" >> $IN_FILE
+		echo "<tag>Ana</tag>" >> $IN_FILE
+		echo "<tag>Maria</tag>" >> $IN_FILE
+	fi
+	
+	if [[ $LOWER_TITTLE == *"ana"* ]]; then
+		echo "<tag>Ana</tag>" >> $IN_FILE
+		echo "<tag>Primas</tag>" >> $IN_FILE
+	fi
+	
+	if [[ $LOWER_TITTLE == *"maria"* ]]; then
+		echo "<tag>Maria</tag>" >> $IN_FILE
+		echo "<tag>Primas</tag>" >> $IN_FILE
+	fi
+
+	if [[ $LOWER_TITTLE == *"noel"* ]]; then
+		echo "<tag>Reyes y Papa Noel</tag>" >> $IN_FILE
+	fi
+	
+	if [[ $LOWER_TITTLE == *"reyes"* ]]; then
+		echo "<tag>Reyes y Papa Noel</tag>" >> $IN_FILE
+	fi
+	
 	echo "</movie>" >> $IN_FILE
 }
 
