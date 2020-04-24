@@ -93,7 +93,7 @@ do
 							NUMBER_OF_FILES=$(cat /$TEMP_FOLDER/list-files-fotos.$EXTENSION | wc -l)
 							if [[ $NUMBER_OF_FILES = "0" ]]
 							then
-								echo "No photo files"
+								echo "No photo files for extension $EXTENSION"
 							else
 								mkdir $PHOTOS_PATH/$YEAR-photos/$MONTH-$MONTH_HUMAN/$FOLDER
 								
@@ -136,7 +136,7 @@ do
 							NUMBER_OF_FILES=$(cat /$TEMP_FOLDER/list-files.$EXTENSION | wc -l)
 							if [[ $NUMBER_OF_FILES = "0" ]]
 							then
-								echo "No files for extension $EXTENSION"
+								echo "No movie files for extension $EXTENSION"
 							else
 								mkdir $PHOTOS_PATH/$YEAR-movies/$MONTH-$MONTH_HUMAN/$FOLDER
 								
@@ -165,22 +165,22 @@ do
 								
 								ffmpeg -y -i /$TEMP_FOLDER/output.$EXTENSION -f mjpeg -ss 10 -vframes 1 /$TEMP_FOLDER/output.jpg
 								
-								# Create nfo file
+								# TODO: Create nfo file
 								touch /$TEMP_FOLDER/output.nfo
 								
 								echo "Moving concatenated file ..."
-								mv /$TEMP_FOLDER/output.$EXTENSION "$PHOTOS_PATH/$YEAR-movies/$MONTH-$MONTH_HUMAN/$YEAR/$YEAR-$MONTH-$MONTH_HUMAN-VIDEO-$INDEX_VIDEO_STRING-$FOLDER.$EXTENSION"								
-								mv /$TEMP_FOLDER/output.jpg "$PHOTOS_PATH/$YEAR-movies/$MONTH-$MONTH_HUMAN/$YEAR/$YEAR-$MONTH-$MONTH_HUMAN-VIDEO-$INDEX_VIDEO_STRING-$FOLDER.jpg"
-								mv /$TEMP_FOLDER/output.nfo "$PHOTOS_PATH/$YEAR-movies/$MONTH-$MONTH_HUMAN/$YEAR/$YEAR-$MONTH-$MONTH_HUMAN-VIDEO-$INDEX_VIDEO_STRING-$FOLDER.nfo"								
+								mv /$TEMP_FOLDER/output.$EXTENSION "$PHOTOS_PATH/$YEAR-movies/$MONTH-$MONTH_HUMAN/$FOLDER/$YEAR-$MONTH-$MONTH_HUMAN-VIDEO-$INDEX_VIDEO_STRING-$FOLDER.$EXTENSION"								
+								mv /$TEMP_FOLDER/output.jpg "$PHOTOS_PATH/$YEAR-movies/$MONTH-$MONTH_HUMAN/$FOLDER/$YEAR-$MONTH-$MONTH_HUMAN-VIDEO-$INDEX_VIDEO_STRING-$FOLDER.jpg"
+								mv /$TEMP_FOLDER/output.nfo "$PHOTOS_PATH/$YEAR-movies/$MONTH-$MONTH_HUMAN/$FOLDER/$YEAR-$MONTH-$MONTH_HUMAN-VIDEO-$INDEX_VIDEO_STRING-$FOLDER.nfo"								
 																
 								echo "Removing temp files ..."
 								chmod +x /$TEMP_FOLDER/ln.$EXTENSION
 								/$TEMP_FOLDER/ln.$EXTENSION
 								rm /$TEMP_FOLDER/ln.$EXTENSION
 								rm /$TEMP_FOLDER/list.$EXTENSION
-								rm -Rf /$TEMP_FOLDER/$EXTENSION
 							fi
 							
+							rm -Rf /$TEMP_FOLDER/$EXTENSION
 							rm /$TEMP_FOLDER/list-files.$EXTENSION
 						done
 	                done
