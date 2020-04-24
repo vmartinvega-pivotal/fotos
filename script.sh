@@ -77,8 +77,10 @@ do
 							then
 								ls "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER" | grep -E '.jpg|.JPG' >> /$TEMP_FOLDER/list-files-fotos.$EXTENSION # Grep jpg or JPG
 							elif [[ $EXTENSION = "arw" ]]
+							then
 								ls "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER" | grep -E '.arw|.ARW' >> /$TEMP_FOLDER/list-files-fotos.$EXTENSION # Grep arw or ARW
 							elif [[ $EXTENSION = "dng" ]]
+							then
 								ls "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER" | grep -E '.dng|.DNG' >> /$TEMP_FOLDER/list-files-fotos.$EXTENSION # Grep arw or ARW
 							fi
 							
@@ -116,8 +118,10 @@ do
 							then
 								ls "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER" | grep -E '.mp4|.MP4' > /$TEMP_FOLDER/list-files.$EXTENSION
 							elif [[ $EXTENSION = "mov" ]]
+							then
 								ls "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER" | grep -E '.mov|.MOV' > /$TEMP_FOLDER/list-files.$EXTENSION
 							elif [[ $EXTENSION = "m2ts" ]]
+							then
 								ls "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER" | grep -E '.m2ts|.M2TS' > /$TEMP_FOLDER/list-files.$EXTENSION
 							fi
 							
