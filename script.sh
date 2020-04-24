@@ -63,22 +63,46 @@ do
                 # Loop for folders
                 for FOLDER in `ls "$PHOTOS_PATH/$YEAR/$MONTH"`
                 do
-                        echo "Analyzing folder: $FOLDER"
-                        for FILE_JPG in `ls "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER" | grep -E '.jpg|.JPG'` # Grep jpg or JPG
-                        do
-                                echo "Analyzing file: $FILE_JPG"
-								INDEX_FOTO=$((INDEX_FOTO + 1))
-								INDEX_FOTO_LENGTH=${#INDEX_FOTO}
-								INDEX_FOTO_STRING=$INDEX_FOTO
-								if [[ $INDEX_FOTO_LENGTH = "1" ]]
-								then
-									INDEX_FOTO_STRING="0$INDEX_FOTO"
-								fi
-								cp "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/$FILE_JPG" "$PHOTOS_PATH/$YEAR-ori/$MONTH-$MONTH_HUMAN/$YEAR-$MONTH-$MONTH_HUMAN-FOTO-$INDEX_FOTO_STRING-$FOLDER.jpg"
-                        done
-						
 						TEMP_FOLDER="tmp"
-						extensions=( "mp4" "mov")
+						
+                        echo "Analyzing folder: $FOLDER"
+						
+						extensions=( "jpg" "arw")
+						
+						for EXTENSION in "${extensions[@]}"
+						do
+							touch /$TEMP_FOLDER/list-files-fotos.$EXTENSION
+							
+							if [[ $EXTENSION = "jpg" ]]
+							then
+								ls "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER" | grep -E '.jpg|.JPG' >> /$TEMP_FOLDER/list-files-fotos.$EXTENSION # Grep jpg or JPG
+							elif [[ $EXTENSION = "arw" ]]
+								ls "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER" | grep -E '.arw|.ARW' >> /$TEMP_FOLDER/list-files-fotos.$EXTENSION # Grep arw or ARW
+							fi
+							
+							NUMBER_OF_FILES=$(cat /$TEMP_FOLDER/list-files-fotos.$EXTENSION | wc -l)
+							if [[ $NUMBER_OF_FILES = "0" ]]
+							then
+								echo "No photo files"
+							else
+								for FILE_JPG in `cat /$TEMP_FOLDER/list-files-fotos.$EXTENSION` 
+								do
+										echo "Analyzing file: $FILE_JPG"
+										INDEX_FOTO=$((INDEX_FOTO + 1))
+										INDEX_FOTO_LENGTH=${#INDEX_FOTO}
+										INDEX_FOTO_STRING=$INDEX_FOTO
+										if [[ $INDEX_FOTO_LENGTH = "1" ]]
+										then
+											INDEX_FOTO_STRING="0$INDEX_FOTO"
+										fi
+										cp "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER/$FILE_JPG" "$PHOTOS_PATH/$YEAR-ori/$MONTH-$MONTH_HUMAN/$YEAR-$MONTH-$MONTH_HUMAN-FOTO-$INDEX_FOTO_STRING-$FOLDER.jpg"
+								done
+							fi
+							
+							rm /$TEMP_FOLDER/list-files-fotos.$EXTENSION
+						done
+						
+						extensions=( "mp4" "mov" "m2ts")
 						
 						for EXTENSION in "${extensions[@]}"
 						do
@@ -89,8 +113,10 @@ do
 							if [[ $EXTENSION = "mp4" ]]
 							then
 								ls "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER" | grep -E '.mp4|.MP4' > /$TEMP_FOLDER/list-files.$EXTENSION
-							else
+							elif [[ $EXTENSION = "mov" ]]
 								ls "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER" | grep -E '.mov|.MOV' > /$TEMP_FOLDER/list-files.$EXTENSION
+							elif [[ $EXTENSION = "m2ts" ]]
+								ls "$PHOTOS_PATH/$YEAR/$MONTH/$FOLDER" | grep -E '.m2ts|.M2TS' > /$TEMP_FOLDER/list-files.$EXTENSION
 							fi
 							
 							NUMBER_OF_FILES=$(cat /$TEMP_FOLDER/list-files.$EXTENSION | wc -l)

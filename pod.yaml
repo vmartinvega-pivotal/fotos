@@ -13,15 +13,10 @@ spec:
     volumeMounts:
     - mountPath: /fotos
       name: fotos
-    - mountPath: /temp
-      name: temp
   dnsPolicy: ClusterFirst
   restartPolicy: Never
   volumes:
   - name: fotos
     hostPath:
       path: /c/Users/vegav/Downloads/fotos
-  - name: temp
-    hostPath:
-      path: /c/Users/vegav/Downloads/temp
 status: {}
