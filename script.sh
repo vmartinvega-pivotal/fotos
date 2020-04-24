@@ -1,18 +1,18 @@
 #!/bin/bash
 
 function createNfo(){
-	local IN_FILE=$1
+	local IN_FILE="$1"
 	local IN_TITTLE="$2"
-	local IN_YEAR=$3
-	local IN_MONTH=$4
-	local IN_TYPE=$5
+	local IN_YEAR="$3"
+	local IN_MONTH="$4"
+	local IN_TYPE="$5"
 	
 	echo "<movie>" >> $IN_FILE
 	echo "<title>" >> $IN_FILE
-	echo $IN_TITLE >> $IN_FILE
+	echo $IN_TITTLE >> $IN_FILE
 	echo "</title>" >> $IN_FILE
 	echo "<sorttitle>" >> $IN_FILE
-	echo $IN_TITLE >> $IN_FILE
+	echo $IN_TITTLE >> $IN_FILE
 	echo "</sorttitle>" >> $IN_FILE
 	echo "<year>" >> $IN_FILE
 	echo $IN_YEAR >> $IN_FILE
@@ -195,7 +195,7 @@ do
 								
 								ffmpeg -y -i /$TEMP_FOLDER/output.$EXTENSION -f mjpeg -ss 10 -vframes 1 /$TEMP_FOLDER/output.jpg
 								
-								createNfo /$TEMP_FOLDER/output.nfo "$FOLDER" "$YEAR" "$MONTH_HUMAN-VIDEO" "KIDS"
+								createNfo /$TEMP_FOLDER/output.nfo "$FOLDER" "$YEAR" "$MONTH_HUMAN" "KIDS"
 							
 								echo "Moving concatenated file ..."
 								mv /$TEMP_FOLDER/output.$EXTENSION "$PHOTOS_PATH/$YEAR-movies/$MONTH-$MONTH_HUMAN/$FOLDER/$YEAR-$MONTH-$MONTH_HUMAN-VIDEO-$INDEX_VIDEO_STRING-$FOLDER.$EXTENSION"								
