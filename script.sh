@@ -78,6 +78,10 @@ function createNfo(){
 		echo "<tag>Viaje</tag>" >> $IN_FILE
 	fi
 	
+	if [[ $LOWER_TITTLE == *"vacaciones"* ]]; then
+		echo "<tag>Viaje</tag>" >> $IN_FILE
+	fi
+	
 	echo "</movie>" >> $IN_FILE
 }
 
