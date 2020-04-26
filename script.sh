@@ -86,6 +86,22 @@ function createNfo(){
 		echo "<tag>Montaje</tag>" >> $IN_FILE
 	fi
 	
+	if [[ $LOWER_TITTLE == *"mariajo"* ]]; then
+		echo "<tag>Mariajo</tag>" >> $IN_FILE
+	fi
+	
+	if [[ $LOWER_TITTLE == *"maria jose"* ]]; then
+		echo "<tag>Mariajo</tag>" >> $IN_FILE
+	fi
+	
+	if [[ $LOWER_TITTLE == *"ines"* ]]; then
+		echo "<tag>Ines</tag>" >> $IN_FILE
+	fi
+	
+	if [[ $LOWER_TITTLE == *"compis"* ]]; then
+		echo "<tag>Compañeros</tag>" >> $IN_FILE
+	fi
+	
 	echo "</movie>" >> $IN_FILE
 }
 
